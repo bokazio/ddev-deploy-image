@@ -1,5 +1,5 @@
 # DDEV Base Image
-FROM drud/ddev-webserver:v1.18.0
+FROM drud/ddev-webserver:v1.18.2
 
 # Correct Timezone
 RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && dpkg-reconfigure --frontend noninteractive tzdata

@@ -10,8 +10,8 @@ RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 
 # Install whatever nodejs version you want
 ENV NODE_VERSION=14
-ENV NPM_VERSION=8.0.0
-ENV SASS_VERSION=1.43.1
+ENV NPM_VERSION=8.3.0
+ENV SASS_VERSION=1.45.2
 ENV CROSSENV_VERSION=7.0.3
 
 RUN apt remove -y nodejs

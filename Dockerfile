@@ -1,5 +1,5 @@
 # DDEV Base Image
-FROM drud/ddev-webserver:v1.18.2
+FROM drud/ddev-webserver:v1.21.4
 
 # Correct Timezone
 RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && dpkg-reconfigure --frontend noninteractive tzdata
@@ -10,8 +10,8 @@ RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 
 # Install whatever nodejs version you want
 ENV NODE_VERSION=14
-ENV NPM_VERSION=8.3.0
-ENV SASS_VERSION=1.45.2
+ENV NPM_VERSION=9.4.0
+ENV SASS_VERSION=1.57.1
 ENV CROSSENV_VERSION=7.0.3
 
 RUN apt remove -y nodejs

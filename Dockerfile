@@ -1,31 +1,26 @@
 # DDEV Base Image
-FROM drud/ddev-webserver:v1.21.4
+FROM ddev/ddev-webserver:v1.22.6
 
 # Correct Timezone
 RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && dpkg-reconfigure --frontend noninteractive tzdata
 
 #FIX
-RUN apt install apt-transport-https lsb-release ca-certificates
+RUN apt-get update && apt-get install -y apt-transport-https lsb-release ca-certificates curl gnupg
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 
-# Install whatever nodejs version you want
-ENV NODE_VERSION=14
-ENV NPM_VERSION=9.4.0
-ENV SASS_VERSION=1.57.1
-ENV CROSSENV_VERSION=7.0.3
+# Install this versions
+ENV NODE_MAJOR=20
+ENV NPM_VERSION=^10
+ENV SASS_VERSION=^1
 
-RUN apt remove -y nodejs
-RUN curl -sSL --fail https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash -
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y -o Dpkg::Options::="--force-confold" --no-install-recommends --no-install-suggests nodejs build-essential
-RUN npm install --global npm@${NPM_VERSION}
-RUN npm install --global cross-env@${CROSSENV_VERSION}
-RUN npm install --global grunt
-RUN npm install --global gulp-cli
-RUN npm install --global npm-check-updates
+# Install NodeJS
+RUN (apt-get remove -y nodejs || true) && (apt purge nodejs || true)
+RUN sudo mkdir /etc/apt/keyrings && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+RUN sudo apt-get update && sudo apt-get install nodejs -y
 
-# Install DART Sass
-RUN wget -O /tmp/sass.tar.gz https://github.com/sass/dart-sass/releases/download/${SASS_VERSION}/dart-sass-${SASS_VERSION}-linux-x64.tar.gz
-RUN tar xfvz /tmp/sass.tar.gz -C /tmp
-RUN mv /tmp/dart-sass/sass /usr/local/bin/sass
-RUN chmod +x /usr/local/bin/sass
-RUN rm -rf /tmp/dart-sass
+# Install node + npm + ncu + sass
+RUN npm install -g npm@${NPM_VERSION}
+RUN npm install -g npm-check-updates
+RUN npm install -g sass@${SASS_VERSION}
+RUN npm install -g turbo

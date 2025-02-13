@@ -1,5 +1,5 @@
 # ddev-deploy
-Dev and deploy Image based on [DDEV Webserver Image](https://hub.docker.com/r/drud/ddev-webserver)
+Dev and deploy Image based on [DDEV Webserver Image](https://hub.docker.com/r/ddev/ddev-webserver)
 
 ## Build
 Build & Push
